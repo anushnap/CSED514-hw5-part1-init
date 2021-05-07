@@ -4,7 +4,9 @@
 
 Create Table Caregivers(
 	CaregiverId int IDENTITY PRIMARY KEY,
-	CaregiverName varchar(50)
+	CaregiverName varchar(50),
+	PhoneNumber int NOT NULL,
+	UserPassword varchar(20)
 );
 
 --==========================================================================
@@ -41,12 +43,42 @@ Create Table CareGiverSchedule(
 	SlotStatus int  DEFAULT 0 NOT NULL
 		CONSTRAINT FK_CaregiverStatusCode FOREIGN KEY (SlotStatus) 
 		     REFERENCES AppointmentStatusCodes(StatusCodeId),
-	VaccineAppointmentId int DEFAULT 0 NOT NULL
+	VaccineAppointmentId int DEFAULT 0 NOT NULL,
+	FOREIGN KEY (VaccineAppointmentID) REFERENCES VaccineAppointments(VaccineAppointmentId)
 );
 
 --==========================================================================
 
+-- Create patients table
+Create Table Patients(
+	PatientId int PRIMARY KEY,
+	PatientName varchar(50),
+	PhoneNumber int NOT NULL,
+	UserPassword varchar(20),
+	DosesGiven int DEFAULT 0 NOT NULL
+);
 
+--==========================================================================
+
+-- Create Vaccine appointments table
+Create Table VaccineAppointments(
+	VaccineAppointmentId int PRIMARY KEY,
+	PatientId int,
+	VaccineId int,
+	FOREIGN KEY (PatientId) REFERENCES Patients(PatientId),
+	FOREIGN KEY (VaccineId) REFERENCES Vaccines(VaccineId)
+);
+
+--==========================================================================
+
+-- Create Vaccines table
+Create Table Vaccines(
+	VaccineId int PRIMARY KEY,
+	ManufactererName varchar(50),
+	DosesNeeded int NOT NULL,
+	DosesInStock int DEFAULT 0 NOT NULL,
+	DosesReserved int DEFAULT 0 NOT NULL,
+);
 
  
 -- Additional helper code for your use if needed
