@@ -1,7 +1,6 @@
 import pymssql
 import traceback
 
-
 class SqlConnectionManager:
     def __init__(self, Server, DBname, UserId, Password):
         self.Server = Server
@@ -46,3 +45,5 @@ class SqlConnectionManager:
             callstack = traceback.extract_tb(exctb)
             print(excinst)
             print("stack trace: " + str(callstack))
+
+#==========================================================================

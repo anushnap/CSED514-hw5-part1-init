@@ -1,15 +1,20 @@
 -- Given CREATE TABLE statements to start your database
 
+--==========================================================================
+
 Create Table Caregivers(
 	CaregiverId int IDENTITY PRIMARY KEY,
 	CaregiverName varchar(50)
-	);
+);
+
+--==========================================================================
 
 Create Table AppointmentStatusCodes(
 	StatusCodeId int PRIMARY KEY,
 	StatusCode   varchar(30)
 );
 
+--Insert values into Appointment Status Codes
 INSERT INTO AppointmentStatusCodes (statusCodeId, StatusCode)
 	VALUES (0, 'Open');
 INSERT INTO AppointmentStatusCodes (statusCodeId, StatusCode)
@@ -21,8 +26,11 @@ INSERT INTO AppointmentStatusCodes (statusCodeId, StatusCode)
 INSERT INTO AppointmentStatusCodes (statusCodeId, StatusCode)
 	VALUES (4, 'Missed');
 
+--==========================================================================
+
+--Create caregiver schedule table
 Create Table CareGiverSchedule(
-	CaregiverSlotSchedulingId int Identity PRIMARY KEY, 
+	 int Identity PRIMARY KEY, 
 	CaregiverId int DEFAULT 0 NOT NULL
 		CONSTRAINT FK_CareGiverScheduleCaregiverId FOREIGN KEY (caregiverId)
 			REFERENCES Caregivers(CaregiverId),
@@ -33,8 +41,14 @@ Create Table CareGiverSchedule(
 	SlotStatus int  DEFAULT 0 NOT NULL
 		CONSTRAINT FK_CaregiverStatusCode FOREIGN KEY (SlotStatus) 
 		     REFERENCES AppointmentStatusCodes(StatusCodeId),
-	VaccineAppointmentId int DEFAULT 0 NOT NULL);
+	VaccineAppointmentId int DEFAULT 0 NOT NULL
+);
 
+--==========================================================================
+
+
+
+ 
 -- Additional helper code for your use if needed
 
 -- --- Drop commands to restructure the DB
