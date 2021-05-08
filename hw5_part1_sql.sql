@@ -37,7 +37,6 @@ Create Table CareGiverSchedule(
 		CONSTRAINT FK_CareGiverScheduleCaregiverId FOREIGN KEY (caregiverId)
 			REFERENCES Caregivers(CaregiverId),
 	WorkDay date,
-	SlotTime time,
 	SlotHour int DEFAULT 0 NOT NULL,
 	SlotMinute int DEFAULT 0 NOT NULL,
 	SlotStatus int  DEFAULT 0 NOT NULL

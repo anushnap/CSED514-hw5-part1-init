@@ -60,3 +60,6 @@ class VaccineCaregiver:
                             print("Exception message: " + db_err.args[1]) 
                         print("SQL text that resulted in an Error: " + _sqltext2)
         cursor.connection.commit()
+
+
+        #insert code for phone number and password
