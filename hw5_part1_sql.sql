@@ -43,8 +43,7 @@ Create Table CareGiverSchedule(
 	SlotStatus int  DEFAULT 0 NOT NULL
 		CONSTRAINT FK_CaregiverStatusCode FOREIGN KEY (SlotStatus) 
 		     REFERENCES AppointmentStatusCodes(StatusCodeId),
-	VaccineAppointmentId int DEFAULT 0 NOT NULL,
-	FOREIGN KEY (VaccineAppointmentID) REFERENCES VaccineAppointments(VaccineAppointmentId)
+	VaccineAppointmentId int DEFAULT 0 NOT NULL
 );
 
 --==========================================================================
@@ -65,8 +64,7 @@ Create Table VaccineAppointments(
 	VaccineAppointmentId int PRIMARY KEY,
 	PatientId int,
 	VaccineId int,
-	FOREIGN KEY (PatientId) REFERENCES Patients(PatientId),
-	FOREIGN KEY (VaccineId) REFERENCES Vaccines(VaccineId)
+	FOREIGN KEY (PatientId) REFERENCES Patients(PatientId)
 );
 
 --==========================================================================
@@ -78,15 +76,39 @@ Create Table Vaccines(
 	DosesNeeded int NOT NULL,
 	DosesInStock int DEFAULT 0 NOT NULL,
 	DosesReserved int DEFAULT 0 NOT NULL,
+	DaysBetweenDoses int,
 );
 
- 
+--==========================================================================
+
+ALTER TABLE CareGiverSchedule
+ADD FOREIGN KEY (VaccineAppointmentID) REFERENCES VaccineAppointments(VaccineAppointmentId)
+;
+
+--==========================================================================
+
+ALTER TABLE VaccineAppointments
+ADD FOREIGN KEY (VaccineId) REFERENCES Vaccines(VaccineId)
+;
+
+--==========================================================================
+
+-- Add Vaccines into Vaccine table.
+INSERT INTO Vaccines (VaccineId, ManufactererName, DosesNeeded, DosesInStock, DosesReserved, DaysBetweenDoses)
+	VALUES (1, 'Pfizer-BioNTech', 2, 0, 0, 21);
+INSERT INTO Vaccines (VaccineId, ManufactererName, DosesNeeded, DosesInStock, DosesReserved, DaysBetweenDoses)
+	VALUES (2, 'Moderna', 2, 0, 0, 28);
+INSERT INTO Vaccines (VaccineId, ManufactererName, DosesNeeded, DosesInStock, DosesReserved, DaysBetweenDoses)
+	VALUES (3, 'Johnson & Johnson/Janssen', 1, 0, 0, NULL);
+
+
 -- Additional helper code for your use if needed
 
 -- --- Drop commands to restructure the DB
--- Drop Table CareGiverSchedule
--- Drop Table AppointmentStatusCodes
--- Drop Table Caregivers
+-- Drop Table IF EXISTS AppointmentStatusCodes;
+-- Drop Table IF EXISTS Patients;
+-- Drop Table IF EXISTS CareGivers;
+-- Drop Table IF EXISTS Vaccines, CareGiverSchedule, VaccineAppointments, Vaccines;
 -- Go
 
 -- --- Commands to clear the active database Tables for unit testing
