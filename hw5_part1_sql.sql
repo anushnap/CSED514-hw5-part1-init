@@ -32,7 +32,7 @@ INSERT INTO AppointmentStatusCodes (statusCodeId, StatusCode)
 
 --Create caregiver schedule table
 Create Table CareGiverSchedule(
-	 int Identity PRIMARY KEY, 
+	CaregiverSlotSchedulingId int Identity PRIMARY KEY, 
 	CaregiverId int DEFAULT 0 NOT NULL
 		CONSTRAINT FK_CareGiverScheduleCaregiverId FOREIGN KEY (caregiverId)
 			REFERENCES Caregivers(CaregiverId),
