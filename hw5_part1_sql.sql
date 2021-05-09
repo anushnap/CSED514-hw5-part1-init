@@ -105,14 +105,13 @@
 
 -- --- Drop commands to restructure the DB
 -- Drop Table IF EXISTS 
--- 	Vaccines, 
 -- 	CareGiverSchedule, 
 -- 	VaccineAppointments,
 -- 	AppointmentStatusCodes, 
 -- 	Patients, 
--- 	Caregivers
--- ;
-	
+-- 	Caregivers,
+-- 	Vaccines	
+-- ;	
 
 -- DROP PROCEDURE IF EXISTS InitDataModel;
 
@@ -124,8 +123,6 @@
 -- Delete From Caregivers
 -- DBCC CHECKIDENT ('Caregivers', RESEED, 0)
 -- GO
-
-
 GO
 
 --Data model as stored procedure
@@ -135,7 +132,7 @@ AS
 	Create Table Caregivers(
 		CaregiverId int IDENTITY PRIMARY KEY,
 		CaregiverName varchar(50),
-		PhoneNumber int NOT NULL,
+		PhoneNumber int,
 		UserPassword varchar(20)
 	)
 
@@ -160,9 +157,9 @@ AS
 	Create Table Patients(
 	PatientId int IDENTITY PRIMARY KEY,
 	PatientName varchar(50),
-	PhoneNumber int NOT NULL,
+	PhoneNumber int,
 	UserPassword varchar(20),
-	DosesGiven int DEFAULT 0 NOT NULL
+	DosesGiven int DEFAULT 0
 	)
 
 	--Vaccines table
