@@ -93,12 +93,12 @@ ADD FOREIGN KEY (VaccineId) REFERENCES Vaccines(VaccineId)
 --==========================================================================
 
 -- Add Vaccines into Vaccine table.
-INSERT INTO Vaccines (VaccineId, ManufactererName, DosesNeeded, DosesInStock, DosesReserved, DaysBetweenDoses)
-	VALUES (1, 'Pfizer-BioNTech', 2, 0, 0, 21);
-INSERT INTO Vaccines (VaccineId, ManufactererName, DosesNeeded, DosesInStock, DosesReserved, DaysBetweenDoses)
-	VALUES (2, 'Moderna', 2, 0, 0, 28);
-INSERT INTO Vaccines (VaccineId, ManufactererName, DosesNeeded, DosesInStock, DosesReserved, DaysBetweenDoses)
-	VALUES (3, 'Johnson & Johnson/Janssen', 1, 0, 0, NULL);
+-- INSERT INTO Vaccines (VaccineId, ManufactererName, DosesNeeded, DosesInStock, DosesReserved, DaysBetweenDoses)
+-- 	VALUES (1, 'Pfizer-BioNTech', 2, 0, 0, 21);
+-- INSERT INTO Vaccines (VaccineId, ManufactererName, DosesNeeded, DosesInStock, DosesReserved, DaysBetweenDoses)
+-- 	VALUES (2, 'Moderna', 2, 0, 0, 28);
+-- INSERT INTO Vaccines (VaccineId, ManufactererName, DosesNeeded, DosesInStock, DosesReserved, DaysBetweenDoses)
+-- 	VALUES (3, 'Johnson & Johnson/Janssen', 1, 0, 0, NULL);
 
 
 -- Additional helper code for your use if needed
