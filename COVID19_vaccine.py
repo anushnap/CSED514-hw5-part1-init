@@ -2,8 +2,8 @@ import pymssql
 
 class COVID19Vaccine:
     '''Adds the Vaccine to the DB'''
-    def __init__(self, manufacName, cursor):
-        self.sqltext = "INSERT INTO Vaccines (ManufactererName) VALUES ('" + manufacName + "')"
+    def __init__(self, manufacName, days_between_doses, cursor):
+        self.sqltext = "INSERT INTO Vaccines (ManufactererName) VALUES ('" + str(manufacName) + "')"
         self.VaccineId = 0
         try: 
             cursor.execute(self.sqltext)
@@ -27,13 +27,14 @@ class COVID19Vaccine:
         else:
         	self.dosesNeeded = 1
 
-       	sqltext2 = ("INSERT INTO Vaccines (DosesNeeded) VALUES (")
-        sqltext2 += str(self.dosesNeeded) + ")"
+       	sqltext2 = ("INSERT INTO Vaccines (VaccineId, DosesNeeded, DaysBetweenDoses) VALUES (")
+        sqltext2 += str(self.VaccineId) + ", " + str(self.dosesNeeded) + ", " + str(days_between_doses) + ")"
+        # print(sqltext2)
 
         try:
             cursor.execute(sqltext2)
         except pymssql.Error as db_err:
-            print("Database Programming Error in SQL Query processing for Caregivers! ")
+            print("Database Programming Error in SQL Query processing for COVID19_Vaccine! ")
             print("Exception code: " + str(db_err.args[0]))
             if len(db_err.args) > 1:
                 print("Exception message: " + db_err.args[1])
