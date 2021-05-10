@@ -123,6 +123,14 @@
 -- Delete From Caregivers
 -- DBCC CHECKIDENT ('Caregivers', RESEED, 0)
 -- GO
+
+-- Truncate Table Vaccines
+-- DBCC CHECKIDENT ('Vaccines', RESEED, 0)
+-- Delete From Vaccines
+-- DBCC CHECKIDENT ('Vaccines', RESEED, 0)
+-- GO
+
+
 GO
 
 --Data model as stored procedure
@@ -166,9 +174,9 @@ AS
 	Create Table Vaccines(
 	VaccineId int IDENTITY PRIMARY KEY,
 	ManufactererName varchar(50),
-	DosesNeeded int NOT NULL,
-	DosesInStock int DEFAULT 0 NOT NULL,
-	DosesReserved int DEFAULT 0 NOT NULL,
+	DosesNeeded int,
+	DosesInStock int DEFAULT 0,
+	DosesReserved int DEFAULT 0,
 	DaysBetweenDoses int
 	)
 
