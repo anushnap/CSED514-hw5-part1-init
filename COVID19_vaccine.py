@@ -63,7 +63,7 @@ class COVID19Vaccine:
             print("SQL text that resulted in an Error: " + sqltext)
 
 
-    def reserve_doses(manufac_name):
+    def reserve_doses(manufac_name, cursor):
         '''reserve the vaccine doses associated with a specific patient who is being scheduled for vaccine administration'''
         sqltext1 = "SELECT DosesInStock, DosesReserved FROM Vaccines WHERE ManufactererName = '"
         sqltext1 += str(manufac_name) + "'"
