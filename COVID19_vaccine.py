@@ -46,7 +46,10 @@ class COVID19Vaccine:
     
     def addDoses(manufacName, numberOfDosesAdded):
         '''Add doses to the vaccine inventory for a particular vaccine'''
-
+        self.addDoses = "UPDATE Vaccines SET DosesInStock = DosesInStock + "
+        self.addDoses += numberofDosesAdded 
+        self.addDoses += "WHERE ManufactererName = "
+        self.addDoses += str(manufacName)
 
     def ReserveDoses(manufacName):
         '''reserve the vaccine doses associated with a specific patient who is being scheduled for vaccine administration'''
