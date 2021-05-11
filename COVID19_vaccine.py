@@ -54,10 +54,6 @@ class COVID19Vaccine:
         try: 
             cursor.execute(sqltext)
             cursor.connection.commit()
-            # cursor.execute("SELECT @@IDENTITY AS 'Identity'; ")
-            # _identityRow = cursor.fetchone()
-            # self.VaccineId = _identityRow['Identity']
-            # cursor.connection.commit()
             print("Query executed successfully.")
         except pymssql.Error as db_err:
             print("Database Programming Error in SQL Query processing for Vaccines! ")
@@ -69,30 +65,59 @@ class COVID19Vaccine:
 
     def ReserveDoses(manufacName):
         '''reserve the vaccine doses associated with a specific patient who is being scheduled for vaccine administration'''
+        sqltext1 = "SELECT DosesInStock, DosesReserved FROM Vaccines WHERE ManufactererName = '"
+        sqltext1 += str(manufacName) + "'"
+        
         #get doses in stock and doses reserved
-        self.getdosesInStock = "SELECT DosesInStock FROM Vaccines WHERE ManufactererName = "
-        self.getdosesInStock += str(manufacName)
-        self.getdosesReserved = "SELECT DosesReserved FROM Vaccines WHERE ManufactererName = "
-        self.getdosesInStock += str(manufacName)
+        try: 
+            cursor.execute(sqltext1)
+            rows = cursor.fetchall()
+            doses_in_stock = 0
+            doses_reserved = 0
+            
+            for row in rows:
+                doses_in_stock += row['DosesInStock']
+                doses_reserved += row['DosesReserved']
+            
+            print("Query executed successfully.")
+        except pymssql.Error as db_err:
+            print("Database Programming Error in SQL Query processing for ReserveDoses")
+            print("Exception code: " + str(db_err.args[0]))
+            if len(db_err.args) > 1:
+                print("Exception message: " + db_err.args[1])
+            print("SQL text that resulted in an Error: " + sqltext)
 
         if manufacName == 'Pfizer-BioNTech' or 'Moderna':
             #check if there are enough in stock and reserve
-            if self.getdosesInStock >= 2:
-                self.getdosesReserved += 2
-                self.getdosesInStock = getdosesInStock - 2
+            if doses_in_stock >= 2:
+                doses_reserved += 2
+                doses_in_stock -= 2
+            elif doses_in_stock == 1:
+                doses_reserved += 1
+                doses_in_stock -= 1
+                print("WARNING: STOCK LOW. ONLY ONE DOSE RESERVED")
             else:
-                print("Not enough vaccines in stock!")
+                print("WARNING: Not enough vaccines in stock!")
         else:
             #check if there are enough in stock and reserve
-            if self.getdosesInStock >= 1:
-                self.getdosesReserved += 1
-                self.getdosesInStock = getdosesInStock - 1
+            if doses_in_stock >= 1:
+                doses_reserved += 1
+                doses_in_stock -= 1
             else:
-                print("Not enough vaccines in stock!")
-
-
-
-
-
-
+                print("WARNING: Not enough vaccines in stock!")
         
+        sqltext2 = "UPDATE VACCINES SET DosesInStock = "
+        sqltext2 += str(doses_in_stock) + ", DosesReserved = "
+        sqltext2 += str(doses_reserved) + " WHERE ManufactererName = '"
+        sqltext2 += manufacName + "'"
+
+        try: 
+            cursor.execute(sqltext2)
+            cursor.connection.commit()
+            print("Query executed successfully.")
+        except pymssql.Error as db_err:
+            print("Database Programming Error in SQL Query processing for ReserveDoses! ")
+            print("Exception code: " + str(db_err.args[0]))
+            if len(db_err.args) > 1:
+                print("Exception message: " + db_err.args[1])
+            print("SQL text that resulted in an Error: " + sqltext)
