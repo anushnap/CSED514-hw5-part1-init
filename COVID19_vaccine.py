@@ -44,20 +44,36 @@ class COVID19Vaccine:
         #     print("SQL text that resulted in an Error: " + self.sqltext)
             
     
-    def addDoses(manufacName, numberOfDosesAdded):
+    def addDoses(manufacName, numberofDosesAdded, cursor):
         '''Add doses to the vaccine inventory for a particular vaccine'''
-        self.addDoses = "UPDATE Vaccines SET DosesInStock = DosesInStock + "
-        self.addDoses += numberofDosesAdded 
-        self.addDoses += "WHERE ManufactererName = "
-        self.addDoses += str(manufacName)
+        sqltext = "UPDATE Vaccines SET DosesInStock = DosesInStock + "
+        sqltext += str(numberofDosesAdded)
+        sqltext += " WHERE ManufactererName = '"
+        sqltext += str(manufacName) + "'"
+        
+        try: 
+            cursor.execute(sqltext)
+            cursor.connection.commit()
+            # cursor.execute("SELECT @@IDENTITY AS 'Identity'; ")
+            # _identityRow = cursor.fetchone()
+            # self.VaccineId = _identityRow['Identity']
+            # cursor.connection.commit()
+            print("Query executed successfully.")
+        except pymssql.Error as db_err:
+            print("Database Programming Error in SQL Query processing for Vaccines! ")
+            print("Exception code: " + str(db_err.args[0]))
+            if len(db_err.args) > 1:
+                print("Exception message: " + db_err.args[1])
+            print("SQL text that resulted in an Error: " + sqltext)
+
 
     def ReserveDoses(manufacName):
         '''reserve the vaccine doses associated with a specific patient who is being scheduled for vaccine administration'''
         #get doses in stock and doses reserved
-            self.getdosesInStock = "SELECT DosesInStock FROM Vaccines WHERE ManufactererName = "
-            self.getdosesInStock += str(manufacName)
-            self.getdosesReserved = "SELECT DosesReserved FROM Vaccines WHERE ManufactererName = "
-            self.getdosesInStock += str(manufacName)
+        self.getdosesInStock = "SELECT DosesInStock FROM Vaccines WHERE ManufactererName = "
+        self.getdosesInStock += str(manufacName)
+        self.getdosesReserved = "SELECT DosesReserved FROM Vaccines WHERE ManufactererName = "
+        self.getdosesInStock += str(manufacName)
 
         if manufacName == 'Pfizer-BioNTech' or 'Moderna':
             #check if there are enough in stock and reserve
