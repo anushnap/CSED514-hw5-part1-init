@@ -2,7 +2,7 @@ import pymssql
 
 class COVID19Vaccine:
     '''Adds the Vaccine to the DB'''
-    def __init__(self, manufacName, days_between_doses, cursor):
+    def __init__(self, manufacName, days_between_doses, dosesInStock, dosesReserved, cursor):
         # Determine number of doses needed for each vaccine
         if manufacName == 'Pfizer-BioNTech' or manufacName == 'Moderna':
         	self.dosesNeeded = 2
@@ -12,8 +12,8 @@ class COVID19Vaccine:
         self.sqltext = "INSERT INTO Vaccines (ManufactererName, DosesNeeded, DosesInStock, DosesReserved, DaysBetweenDoses) VALUES ('" 
         self.sqltext += manufacName + "', "
         self.sqltext += str(self.dosesNeeded) + ", "
-        self.sqltest += str(self.dosesInStock) + ", "
-        self.sqltest += str(self.dosesReserved) + ", "
+        self.sqltext += str(dosesInStock) + ", "
+        self.sqltext += str(dosesReserved) + ", "
         self.sqltext += str(days_between_doses) + ")"
         
         self.VaccineId = 0
@@ -52,9 +52,9 @@ class COVID19Vaccine:
         '''reserve the vaccine doses associated with a specific patient who is being scheduled for vaccine administration'''
         #get doses in stock and doses reserved
             self.getdosesInStock = "SELECT DosesInStock FROM Vaccines WHERE ManufactererName = "
-            self.getdosesInStock += manufacName
+            self.getdosesInStock += str(manufacName)
             self.getdosesReserved = "SELECT DosesReserved FROM Vaccines WHERE ManufactererName = "
-            self.getdosesInStock += manufacName
+            self.getdosesInStock += str(manufacName)
 
         if manufacName == 'Pfizer-BioNTech' or 'Moderna':
             #check if there are enough in stock and reserve
