@@ -46,22 +46,28 @@ class COVID19Vaccine:
     
     def addDoses(manufacName, numberOfDosesAdded):
         '''Add doses to the vaccine inventory for a particular vaccine'''
-        pass
+
 
     def ReserveDoses(manufacName):
         '''reserve the vaccine doses associated with a specific patient who is being scheduled for vaccine administration'''
-        if manufacName == 'Pfizer-BioNTech' or manufacName == 'Moderna':
+        #get doses in stock and doses reserved
+            self.getdosesInStock = "SELECT DosesInStock FROM Vaccines WHERE ManufactererName = "
+            self.getdosesInStock += manufacName
+            self.getdosesReserved = "SELECT DosesReserved FROM Vaccines WHERE ManufactererName = "
+            self.getdosesInStock += manufacName
+
+        if manufacName == 'Pfizer-BioNTech' or 'Moderna':
             #check if there are enough in stock and reserve
-            if self.dosesInStock >= 2:
-                self.dosesReserved += 2
-                self.dosesInStock = dosesInStock - 2
+            if self.getdosesInStock >= 2:
+                self.getdosesReserved += 2
+                self.getdosesInStock = getdosesInStock - 2
             else:
                 print("Not enough vaccines in stock!")
         else:
             #check if there are enough in stock and reserve
-            if self.dosesInStock >= 1:
-                self.dosesReserved += 1
-                self.dosesInStock = dosesInStock - 1
+            if self.getdosesInStock >= 1:
+                self.getdosesReserved += 1
+                self.getdosesInStock = getdosesInStock - 1
             else:
                 print("Not enough vaccines in stock!")
 
