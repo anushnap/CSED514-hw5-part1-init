@@ -17,10 +17,10 @@ class TestCovid19(unittest.TestCase):
                     # clear the tables before testing
                     clear_tables(sqlClient)
                     # create a new VaccineCaregiver object
-                    self.vaccine_a = covid(manufacName="Moderna",
+                    self.vaccine_a = covid(manufac_name="Moderna",
                                            days_between_doses = 28,
-                                           dosesInStock = 100,
-                                           dosesReserved = 0,
+                                           doses_in_stock = 100,
+                                           doses_reserved = 0,
                                            cursor=cursor)
                     # check if the patient is correctly inserted into the database
                     sqlQuery = '''
@@ -48,10 +48,10 @@ class TestCovid19(unittest.TestCase):
                 try:
                     # clear the tables before testing
                     clear_tables(sqlClient)
-                    self.vaccine_b = covid(manufacName = 'Moderna',
+                    self.vaccine_b = covid(manufac_name = 'Moderna',
                                            days_between_doses = 28,
-                                           dosesInStock = 100,
-                                           dosesReserved = 0,
+                                           doses_in_stock = 100,
+                                           doses_reserved = 0,
                                            cursor = cursor)
                     # get current doses
                     sqlQuery = '''
@@ -67,7 +67,7 @@ class TestCovid19(unittest.TestCase):
                     
                     # add new doses and check that count changes
                     add_doses = 10
-                    vaccine_c = covid.addDoses('Moderna', add_doses, cursor)
+                    vaccine_c = covid.add_doses('Moderna', add_doses, cursor)
                     sqlQuery = '''
                                 SELECT *
                                 FROM Vaccines

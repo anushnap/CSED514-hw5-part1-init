@@ -2,18 +2,18 @@ import pymssql
 
 class COVID19Vaccine:
     '''Adds the Vaccine to the DB'''
-    def __init__(self, manufacName, days_between_doses, dosesInStock, dosesReserved, cursor):
+    def __init__(self, manufac_name, days_between_doses, doses_in_stock, doses_reserved, cursor):
         # Determine number of doses needed for each vaccine
-        if manufacName == 'Pfizer-BioNTech' or manufacName == 'Moderna':
-        	self.dosesNeeded = 2
+        if manufac_name == 'Pfizer-BioNTech' or manufac_name == 'Moderna':
+        	self.doses_needed = 2
         else:
-        	self.dosesNeeded = 1
+        	self.doses_needed = 1
         
         self.sqltext = "INSERT INTO Vaccines (ManufactererName, DosesNeeded, DosesInStock, DosesReserved, DaysBetweenDoses) VALUES ('" 
-        self.sqltext += manufacName + "', "
-        self.sqltext += str(self.dosesNeeded) + ", "
-        self.sqltext += str(dosesInStock) + ", "
-        self.sqltext += str(dosesReserved) + ", "
+        self.sqltext += manufac_name + "', "
+        self.sqltext += str(self.doses_needed) + ", "
+        self.sqltext += str(doses_in_stock) + ", "
+        self.sqltext += str(doses_reserved) + ", "
         self.sqltext += str(days_between_doses) + ")"
         
         self.VaccineId = 0
@@ -24,7 +24,7 @@ class COVID19Vaccine:
             _identityRow = cursor.fetchone()
             self.VaccineId = _identityRow['Identity']
             # cursor.connection.commit()
-            print('Query executed successfully. Vaccine : ' + manufacName 
+            print('Query executed successfully. Vaccine : ' + manufac_name 
             +  ' added to the database using Vaccine ID = ' + str(self.VaccineId))
         except pymssql.Error as db_err:
             print("Database Programming Error in SQL Query processing for Vaccines! ")
@@ -44,12 +44,12 @@ class COVID19Vaccine:
         #     print("SQL text that resulted in an Error: " + self.sqltext)
             
     
-    def addDoses(manufacName, numberofDosesAdded, cursor):
+    def add_doses(manufac_name, num_doses_added, cursor):
         '''Add doses to the vaccine inventory for a particular vaccine'''
         sqltext = "UPDATE Vaccines SET DosesInStock = DosesInStock + "
-        sqltext += str(numberofDosesAdded)
+        sqltext += str(num_doses_added)
         sqltext += " WHERE ManufactererName = '"
-        sqltext += str(manufacName) + "'"
+        sqltext += str(manufac_name) + "'"
         
         try: 
             cursor.execute(sqltext)
@@ -63,10 +63,10 @@ class COVID19Vaccine:
             print("SQL text that resulted in an Error: " + sqltext)
 
 
-    def ReserveDoses(manufacName):
+    def reserve_doses(manufac_name):
         '''reserve the vaccine doses associated with a specific patient who is being scheduled for vaccine administration'''
         sqltext1 = "SELECT DosesInStock, DosesReserved FROM Vaccines WHERE ManufactererName = '"
-        sqltext1 += str(manufacName) + "'"
+        sqltext1 += str(manufac_name) + "'"
         
         #get doses in stock and doses reserved
         try: 
@@ -87,7 +87,7 @@ class COVID19Vaccine:
                 print("Exception message: " + db_err.args[1])
             print("SQL text that resulted in an Error: " + sqltext)
 
-        if manufacName == 'Pfizer-BioNTech' or 'Moderna':
+        if manufac_name == 'Pfizer-BioNTech' or 'Moderna':
             #check if there are enough in stock and reserve
             if doses_in_stock >= 2:
                 doses_reserved += 2
@@ -109,7 +109,7 @@ class COVID19Vaccine:
         sqltext2 = "UPDATE VACCINES SET DosesInStock = "
         sqltext2 += str(doses_in_stock) + ", DosesReserved = "
         sqltext2 += str(doses_reserved) + " WHERE ManufactererName = '"
-        sqltext2 += manufacName + "'"
+        sqltext2 += manufac_name + "'"
 
         try: 
             cursor.execute(sqltext2)
