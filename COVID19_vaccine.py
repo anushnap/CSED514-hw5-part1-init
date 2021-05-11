@@ -31,18 +31,7 @@ class COVID19Vaccine:
             print("Exception code: " + str(db_err.args[0]))
             if len(db_err.args) > 1:
                 print("Exception message: " + db_err.args[1])
-            print("SQL text that resulted in an Error: " + self.sqltext)
-
-        
-        # try:
-        #     cursor.execute(sqltext2)
-        # except pymssql.Error as db_err:
-        #     print("Database Programming Error in SQL Query processing for COVID19_Vaccine! ")
-        #     print("Exception code: " + str(db_err.args[0]))
-        #     if len(db_err.args) > 1:
-        #         print("Exception message: " + db_err.args[1])
-        #     print("SQL text that resulted in an Error: " + self.sqltext)
-            
+            print("SQL text that resulted in an Error: " + self.sqltext)         
     
     def add_doses(manufac_name, num_doses_added, cursor):
         '''Add doses to the vaccine inventory for a particular vaccine'''
